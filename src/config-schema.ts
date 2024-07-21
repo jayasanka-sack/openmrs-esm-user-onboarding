@@ -66,19 +66,19 @@ export const configSchema = {
             disableBeacon: true,
           },
           {
-            target: '[aria-label="Demographics Section"]',
+            target: '#demographics',
             title: 'Demographics',
             content: 'This is the Demographics section. Here you can find various fields and information related to the patient.',
             disableBeacon: true,
           },
           {
-            target: '[aria-label="Contact Details Section"]',
+            target: '#contact',
             title: 'Contact Details',
             content: "Here you can update the patient's contact information.",
             disableBeacon: true,
           },
           {
-            target: '[aria-label="Relationships section"]',
+            target: '#relationships',
             title: 'Relationships',
             content: "In this section, you can manage the patient's relationships.",
             disableBeacon: true,

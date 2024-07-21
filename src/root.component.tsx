@@ -31,21 +31,35 @@ const RootComponent: React.FC = () => {
     }
   }
 
-  return <ReactJoyride
-    continuous
-    debug
-    disableScrolling
-    showProgress
-    showSkipButton
-    steps={steps}
-    stepIndex={stepIndex}
-    run={showTutorial}
-    callback={handleJoyrideCallback}
-    styles={{
-      options: {
-        zIndex: 10000,
-      },
-    }}
-  />;
+  return (
+    <ReactJoyride
+      continuous
+      debug
+      disableScrolling
+      showProgress
+      showSkipButton
+      steps={steps}
+      stepIndex={stepIndex}
+      run={showTutorial}
+      callback={handleJoyrideCallback}
+      styles={{
+        options: {
+          zIndex: 10000,
+          primaryColor: '#009384',
+        },
+        overlay: { height: document.body.scrollHeight },
+        tooltipTitle: {
+          fontWeight: 'bold',
+        },
+      }}
+      locale={{
+        back: 'Back',
+        close: 'Close',
+        last: 'Finish',
+        next: 'Next',
+        skip: 'Skip',
+      }}
+    />
+  );
 };
 export default RootComponent;
