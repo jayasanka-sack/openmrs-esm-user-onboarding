@@ -88,6 +88,12 @@ export const configSchema = {
             content: "In this section, you can manage the patient's relationships.",
             disableBeacon: true,
           },
+          {
+            target: 'button[type="submit"]',
+            title: 'Register Patient',
+            content: "Click this button to register the patient's information into the system.",
+            disableBeacon: true,
+          },
         ],
       },
     ],
