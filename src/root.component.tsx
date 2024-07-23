@@ -21,7 +21,7 @@ const RootComponent: React.FC = () => {
       const currentStep = steps[nextStepIndex - 1];
       const nextStep = steps[nextStepIndex];
 
-      if (currentStep && currentStep.data?.next) {
+      if (currentStep && currentStep?.data?.next) {
         const basePath = window.getOpenmrsSpaBase();
         const nextPath = `${basePath}${currentStep.data.next}`;
         if (window.location.pathname !== nextPath.replace(basePath, '')) {
@@ -67,7 +67,7 @@ const RootComponent: React.FC = () => {
     switch (type) {
       case EVENTS.STEP_AFTER:
       case EVENTS.TARGET_NOT_FOUND:
-        setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
+        handleStepChange(index + (action === ACTIONS.PREV ? -1 : 1));
         break;
       case EVENTS.TOUR_END:
         setStepIndex(0)
