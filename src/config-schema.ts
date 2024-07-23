@@ -13,7 +13,6 @@ export const configSchema = {
       {
         title: 'Basic Tutorial',
         description: 'Learn how to efficiently search for patients, register new patients, access user settings, and view ongoing visits and appointments.',
-        link : 'home',
         steps: [{
           target: '[aria-label="OpenMRS"]',
           content: 'Welcome to OpenMRS! This is the main dashboard where you can navigate to various features of the system.'
@@ -43,7 +42,6 @@ export const configSchema = {
       {
         title: 'Option Tutorial',
         description: 'Optional Tutorial for debugging purposes',
-        link: 'home',
         steps: [{
           target: '[aria-label="OpenMRS"]',
           content: 'Welcome to OpenMRS! This is the main dashboard where you can navigate to various features of the system.'
@@ -57,13 +55,20 @@ export const configSchema = {
       {
         title: 'Patient Registration Tutorial',
         description: 'Learn how to register a new patient into the system.',
-        link: 'patient-registration',
         steps: [
           {
             target: '[name="AddPatientIcon"]',
             title: 'Add Patient',
             content: 'Click here to add a patient to the system.',
             disableBeacon: true,
+            disableOverlayClose: true,
+            spotlightClicks: true,
+            hideCloseButton: true,
+            hideFooter: true,
+            data: {
+              next: 'patient-registration',
+              clickRequired: true,
+            },
           },
           {
             target: '#demographics',
@@ -94,12 +99,19 @@ export type Config = {
   tutorialData: {
     title: string;
     description: string;
-    link: string;
     steps: {
       target: string;
       title: string;
       content: string;
       disableBeacon: boolean;
+      disableOverlayClose?: boolean;
+      spotlightClicks?: boolean;
+      hideCloseButton?: boolean;
+      hideFooter?: boolean;
+      data?: {
+        next?: string;
+        clickRequired?: boolean;
+      };
     }[];
   }[];
 };
