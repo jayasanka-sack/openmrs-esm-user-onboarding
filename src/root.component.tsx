@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactJoyride, { ACTIONS, type CallBackProps, EVENTS, type Step } from 'react-joyride';
 import { navigate, useDefineAppContext } from '@openmrs/esm-framework';
 import { type TutorialContext } from './types';
+import CustomTooltip from './tooltip/tooltip.component';
 
 const RootComponent: React.FC = () => {
 
@@ -87,22 +88,12 @@ const RootComponent: React.FC = () => {
       stepIndex={stepIndex}
       run={showTutorial}
       callback={handleJoyrideCallback}
+      tooltipComponent={(props) => <CustomTooltip {...props} step={steps[props.index]} totalSteps={steps.length} />}
       styles={{
         options: {
           zIndex: 10000,
-          primaryColor: '#009384',
         },
         overlay: { height: document.body.scrollHeight },
-        tooltipTitle: {
-          fontWeight: 'bold',
-        },
-      }}
-      locale={{
-        back: 'Back',
-        close: 'Close',
-        last: 'Finish',
-        next: 'Next',
-        skip: 'Skip',
       }}
     />
   );

@@ -64,6 +64,7 @@ export const configSchema = {
             disableOverlayClose: true,
             spotlightClicks: true,
             hideCloseButton: true,
+            hideNextButton: true,
             hideFooter: true,
             data: {
               next: 'patient-registration',
@@ -75,6 +76,7 @@ export const configSchema = {
             title: 'Demographics',
             content: 'This is the Demographics section. Here you can find various fields and information related to the patient.',
             disableBeacon: true,
+            hideBackButton: true,
           },
           {
             target: '#contact',
