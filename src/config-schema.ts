@@ -67,7 +67,6 @@ export const configSchema = {
             hideNextButton: true,
             hideFooter: true,
             data: {
-              next: 'patient-registration',
               clickRequired: true,
             },
           },
@@ -117,7 +116,6 @@ export type Config = {
       hideCloseButton?: boolean;
       hideFooter?: boolean;
       data?: {
-        next?: string;
         clickRequired?: boolean;
       };
     }[];

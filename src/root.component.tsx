@@ -19,16 +19,7 @@ const RootComponent: React.FC = () => {
 
   const handleStepChange = (nextStepIndex: number) => {
     if (nextStepIndex < steps.length) {
-      const currentStep = steps[nextStepIndex - 1];
       const nextStep = steps[nextStepIndex];
-
-      if (currentStep && currentStep?.data?.next) {
-        const basePath = window.getOpenmrsSpaBase();
-        const nextPath = `${basePath}${currentStep.data.next}`;
-        if (window.location.pathname !== nextPath.replace(basePath, '')) {
-          navigate({ to: nextPath });
-        }
-      }
 
       setTimeout(() => {
         const targetElement = document.querySelector(nextStep?.target);
