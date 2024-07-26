@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactJoyride, { ACTIONS, type CallBackProps, EVENTS, type Step } from 'react-joyride';
-import { navigate, useDefineAppContext } from '@openmrs/esm-framework';
+import { useDefineAppContext } from '@openmrs/esm-framework';
 import { type TutorialContext } from './types';
 import CustomTooltip from './tooltip/tooltip.component';
 
 const RootComponent: React.FC = () => {
 
   const [showTutorial, setShowTutorial] = React.useState(false);
-  const [steps, setSteps] = React.useState([]);
+  const [steps, setSteps] = React.useState<Step[]>([]);
   const [stepIndex, setStepIndex] = React.useState(0);
 
   useDefineAppContext<TutorialContext>('tutorial-context', {
@@ -17,49 +17,52 @@ const RootComponent: React.FC = () => {
     setSteps: (steps: Step[]) => setSteps(steps)
   });
 
-  const handleStepChange = (nextStepIndex: number) => {
-    if (nextStepIndex < steps.length) {
-      const nextStep = steps[nextStepIndex];
-
-      setTimeout(() => {
-        const targetElement = document.querySelector(nextStep?.target);
-        if (targetElement) {
-          setShowTutorial(true);
-          setStepIndex(nextStepIndex);
-        } else {
-          handleStepChange(nextStepIndex + 1);
-        }
-      }, 100);
-    } else {
-      setStepIndex(0);
-      setShowTutorial(false);
+  const onStepChange = (index: number) => {
+    const step = steps[index];
+    if (step.data && step.data.autoNextOn) {
+      handleAutoNext(step.data.autoNextOn, index);
     }
+  }
+
+  const waitForTarget = (index: number) => {
+    setShowTutorial(false);
+    const interval = setInterval(() => {
+      const targetElement = document.querySelector(steps[index].target as string);
+      if (targetElement) {
+        setShowTutorial(true);
+        clearTimeout(interval);
+      }
+    }, 1000);
+
   };
 
-  useEffect(() => {
-    const handleTargetClick = (event: MouseEvent) => {
-      const currentStep = steps[stepIndex];
-      if (showTutorial && currentStep?.data?.clickRequired) {
-        const targetElement = document.querySelector(currentStep.target);
-        if (targetElement && targetElement.contains(event.target as Node)) {
-          handleStepChange(stepIndex + 1);
-        }
+  const handleAutoNext = (query: string, index: number) => {
+    const interval = setInterval(() => {
+      const targetElement = document.querySelector(query);
+      if (targetElement) {
+        setStepIndex(index + 1);
+        clearTimeout(interval);
       }
-    };
+    }, 1000);
+  }
 
-    document.addEventListener('click', handleTargetClick);
-    return () => {
-      document.removeEventListener('click', handleTargetClick);
-    };
-  });
-  
+
+
   const handleJoyrideCallback = (data: CallBackProps) => {
     const {action, index, origin, status, type} = data;
-
     switch (type) {
+      case EVENTS.TOUR_START:
+        // The target not found event is not triggered when the tour starts
+        waitForTarget(0);
+        break;
+      case EVENTS.STEP_BEFORE:
+        onStepChange(index);
+        break;
       case EVENTS.STEP_AFTER:
+        setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
+        break;
       case EVENTS.TARGET_NOT_FOUND:
-        handleStepChange(index + (action === ACTIONS.PREV ? -1 : 1));
+        waitForTarget(index);
         break;
       case EVENTS.TOUR_END:
         setStepIndex(0)
